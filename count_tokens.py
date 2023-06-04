@@ -1,26 +1,17 @@
+#!/usr/bin/env python3
+# Purpose: Count the number of GPT-4 tokens in a text.
 import sys
-import openai
-from tiktoken import Tokenizer
-from tiktoken.tokenizer import Tokenizer as TikToken
-
-
-def count_gpt3_tokens(file_name):
-    with open(file_name, "r") as f:
-        text = f.read()
-
-    tokenizer = Tokenizer()
-    tokens = tokenizer.tokenize(text)
-    token_count = len(tokens)
-
-    return token_count
-
+from count_gpt4_tokens import count_gpt4_tokens
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} <file_name>")
+    # check if stdin is empty
+    if sys.stdin.isatty():
+        print("No input on stdin.")
         sys.exit(1)
 
-    file_name = sys.argv[1]
-    token_count = count_gpt3_tokens(file_name)
-    print(f"The file contains {token_count} GPT-3 tokens.")
+    # read from stdin
+    text_to_count = sys.stdin.read()
+
+    token_count = count_gpt4_tokens(text_to_count)
+    print(f"The text contains {token_count} GPT-4 tokens.")
 
